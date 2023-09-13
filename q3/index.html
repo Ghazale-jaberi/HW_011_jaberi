@@ -2,12 +2,67 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="./css/index.css">
+    <title>Page Transition Example</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-   <script src="./js/index.js"></script> 
+  
+    <div class="container  " id="one">
+        <div class="page" id="page2">
+            <h1>Sing in</h1>
+            <div class="setImg">
+             
+              <div class="dimg"><img src="./images/Vector (1).png" alt="facebook"></div>
+              <div class="dimg"><img src="./images/Vector.png" alt="google"></div>
+              <div class="dimg"><img src="./images/formkit_linkedin.png" alt="linkdeen"></div>
+            </div>
+            <p class="para1">or use your account</p>
+
+            <div class="styleInput">
+                <input type="email" placeholder="email">
+                
+                <input type="password" placeholder="password">
+            </div>
+            <p class="para2">Forgot your passowrd?</p>
+            <button class="btn1 " ><span>SIGN IN</span></button>
+        </div>
+
+       
+        <div class="page page2 move"  >
+<h1 class="h1pg2"> Hello, Friend!</h1>
+<p>enter your personal details and start <br> journey with us</p>
+<button  id="signUpButton" class="animate signUpButton"><span>SIGN UP</span></button>
+        </div>
+    </div>
+
+
+<div class="container2" id="two">
+    <div class="page page3 move">
+        <h1 >Welcome Back!</h1>
+<p>To keep connected with us please login <br> with your personal info </p>
+<button class="animate" id="signInButton"><span>SIGN In</span></button>
+    </div>
+    <div class="page page4">
+        <h1 >Create Account</h1>
+            <div class="setImg">
+             
+              <div class="dimg"><img src="./images/Vector (1).png" alt="facebook"></div>
+              <div class="dimg"><img src="./images/Vector.png" alt="google"></div>
+              <div class="dimg"><img src="./images/formkit_linkedin.png" alt="linkdeen"></div>
+            </div>
+            <p class="para1">or use your email for registration</p>
+
+            <div class="styleInput">
+                <input type="name" placeholder="name">
+                <input type="email" placeholder="email">
+                
+                <input type="password" placeholder="password">
+            </div>
+            <button class="btn2 "><span>SIGN UP</span></button>
+    </div>
+</div>
+
+    <script src="./js/index.js"></script>
 </body>
 </html>

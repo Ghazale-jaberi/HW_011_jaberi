@@ -2,12 +2,250 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Shape Calculator</title>
     <link rel="stylesheet" href="./css/index.css">
 </head>
 <body>
-   <script src="./js/index.js"></script> 
+    <div class="box">
+    <h1>Shape Calculator</h1>
+    <label for="shapeSelect">Select a shape:</label>
+    <select id="shapeSelect">
+        <option value="Rectangle">Rectangle</option>
+        <option value="Square">Square</option>
+        <option value="Circle">Circle</option>
+        <option value="Cylinder">Cylinder</option>
+    </select>
+<br>
+    <div id="inputFields">
+    </div>
+<br>
+    <button id="calculateButton">Calculate</button>
+<br>
+    <div id="result">
+    </div>
+    </div>
+    <script>
+
+        class Shape {
+            constructor() {
+                this._shapeName = "";
+            }
+
+            set shapeName(name) {
+                this._shapeName = name;
+            }
+
+            get shapeName() {
+                return this._shapeName;
+            }
+
+            calcArea() {
+                throw new Error("error calcArea");
+            }
+
+            calcPerimeter() {
+                throw new Error("error calcPerimeter");
+            }
+        }
+
+        class Polygon extends Shape {
+            constructor(width, height) {
+                super();
+                this._width = width;
+                this._height = height;
+            }
+
+            get width() {
+                return this._width;
+            }
+
+            set width(width) {
+                this._width = width;
+            }
+
+            get height() {
+                return this._height;
+            }
+
+            set height(height) {
+                this._height = height;
+            }
+
+            calcArea() {
+                return this._width * this._height;
+            }
+
+            calcPerimeter() {
+                return 2 * (this._width + this._height);
+            }
+        }
+
+        class NonPolygon extends Shape {
+            constructor(radius) {
+                super();
+                this._radius = radius;
+            }
+
+            get radius() {
+                return this._radius;
+            }
+
+            set radius(radius) {
+                this._radius = radius;
+            }
+
+            calcArea() {
+                return Math.PI * this._radius * this._radius;
+            }
+
+            calcPerimeter() {
+                return 2 * Math.PI * this._radius;
+            }
+        }
+
+        class Rectangle extends Polygon {
+            constructor(width, height) {
+                super(width, height);
+                this.shapeName = "Rectangle";
+            }
+        }
+
+        class Square extends Polygon {
+            constructor(sideLength) {
+                super(sideLength, sideLength);
+                this.shapeName = "Square";
+            }
+        }
+
+        class Circle extends NonPolygon {
+            constructor(radius) {
+                super(radius);
+                this.shapeName = "Circle";
+            }
+
+            calcArea() {
+                return Math.PI * this._radius ** 2;
+            }
+
+            calcPerimeter() {
+                return 2 * Math.PI * this._radius;
+            }
+        }
+
+        class Cylinder extends Circle {
+            constructor(radius, height) {
+                super(radius);
+                this._height = height;
+            }
+
+            get height() {
+                return this._height;
+            }
+
+            set height(height) {
+                this._height = height;
+            }
+
+            calcArea() {
+                const baseArea = super.calcArea();
+                const lateralArea = 2 * Math.PI * this._radius * this._height;
+                return 2 * baseArea + lateralArea;
+            }
+
+            calcPerimeter() {
+                throw new Error("error");
+            }
+        }
+
+        // JavaScript code here
+
+        // Function to create input fields based on the selected shape
+        function createInputFields(shape) {
+            const inputFields = document.getElementById('inputFields');
+            inputFields.innerHTML = ''; // Clear previous input fields
+
+            if (shape === 'Rectangle' || shape === 'Square') {
+                inputFields.innerHTML = `
+                    <label for="width">Width:</label>
+                    <input type="number" id="width" required><br>
+                    <label for="height">Height:</label>
+                    <input type="number" id="height" required><br>
+                `;
+            } else if (shape === 'Circle') {
+                inputFields.innerHTML = `
+                    <label for="radius">Radius:</label>
+                    <input type="number" id="radius" required><br>
+                `;
+            } else if (shape === 'Cylinder') {
+                inputFields.innerHTML = `
+                    <label for="cylinderRadius">Cylinder Radius:</label>
+                    <input type="number" id="cylinderRadius" required><br>
+                    <label for="cylinderHeight">Cylinder Height:</label>
+                    <input type="number" id="cylinderHeight" required><br>
+                `;
+            }
+        }
+
+        // Function to calculate and display area and perimeter
+        function calculate() {
+            const shapeSelect = document.getElementById('shapeSelect');
+            const selectedShape = shapeSelect.value;
+
+            if (selectedShape === 'Rectangle' || selectedShape === 'Square') {
+                const width = parseFloat(document.getElementById('width').value);
+                const height = parseFloat(document.getElementById('height').value);
+
+                if (!isNaN(width) && !isNaN(height)) {
+                    let shape;
+                    if (selectedShape === 'Rectangle') {
+                        shape = new Rectangle(width, height);
+                    } else {
+                        shape = new Square(width);
+                    }
+                    const area = shape.calcArea();
+                    const perimeter = shape.calcPerimeter();
+                    document.getElementById('result').innerHTML = `
+                        Area: ${area.toFixed(2)}<br>
+                        Perimeter: ${perimeter.toFixed(2)}
+                    `;
+                }
+            } else if (selectedShape === 'Circle') {
+                const radius = parseFloat(document.getElementById('radius').value);
+
+                if (!isNaN(radius)) {
+                    const shape = new Circle(radius);
+                    const area = shape.calcArea();
+                    const circumference = shape.calcPerimeter();
+                    document.getElementById('result').innerHTML = `
+                        Area: ${area.toFixed(2)}<br>
+                        Circumference: ${circumference.toFixed(2)}
+                    `;
+                }
+            } else if (selectedShape === 'Cylinder') {
+                const radius = parseFloat(document.getElementById('cylinderRadius').value);
+                const height = parseFloat(document.getElementById('cylinderHeight').value);
+
+                if (!isNaN(radius) && !isNaN(height)) {
+                    const shape = new Cylinder(radius, height);
+                    const area = shape.calcArea();
+                    document.getElementById('result').innerHTML = `
+                        Surface Area: ${area.toFixed(2)}
+                    `;
+                }
+            }
+        }
+
+        // Event listener for shape selection
+        const shapeSelect = document.getElementById('shapeSelect');
+        shapeSelect.addEventListener('change', () => {
+            const selectedShape = shapeSelect.value;
+            createInputFields(selectedShape);
+        });
+
+        // Event listener for calculate button
+        const calculateButton = document.getElementById('calculateButton');
+        calculateButton.addEventListener('click', calculate);
+    </script>
 </body>
 </html>
