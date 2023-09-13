@@ -1,0 +1,12 @@
+{
+  "name": "q3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "watch": "sass style.scss style.css"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
